@@ -7,6 +7,7 @@ import ListGroup from "./common/ListGroup";
 import { getGenres } from "../services/fakeGenreService";
 import MoviesTable from "./moviesTable";
 import _ from "lodash";
+import SearchBox from "./common/searchBox";
 
 class Movies extends Component {
   state = {
@@ -17,7 +18,8 @@ class Movies extends Component {
     sortColumn: {
       path: "title",
       order: "asc"
-    }
+    },
+    searchQuery: ""
   };
 
   componentDidMount() {
@@ -64,6 +66,13 @@ class Movies extends Component {
     return { totalCount: filtered.length, data: movies };
   }
 
+  handleSearch = ({ currentTarget: input }) => {
+    console.log("handleSearch", input.value);
+    const movies = [...this.state.movies];
+    const filtered = movies.filter(m => m.title.includes(input.value));
+    this.setState({ movies: filtered });
+  };
+
   render() {
     const { length: count } = this.state.movies;
     const {
@@ -100,6 +109,10 @@ class Movies extends Component {
             style={{ marginBottom: 20 }}
           />
           <p>Showing {totalCount} movies in database.</p>
+          <SearchBox
+            value={this.state.searchQuery}
+            onChange={this.handleSearch}
+          />
           <MoviesTable
             movies={movies}
             sortColumn={sortColumn}
