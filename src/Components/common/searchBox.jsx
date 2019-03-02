@@ -1,15 +1,15 @@
 import React from "react";
 
-const SearchBox = props => {
+const SearchBox = ({ value, onChange }) => {
   return (
-    <div className="form-group">
-      <input
-        onChange={props.onChange}
-        name="searchBox"
-        id="searchBox"
-        className="form-control"
-      />
-    </div>
+    <input
+      type="text"
+      name="query"
+      onChange={e => onChange(e.currentTarget.value)}
+      placeholder="Search..."
+      value={value}
+      className="form-control my-3"
+    />
   );
 };
 
